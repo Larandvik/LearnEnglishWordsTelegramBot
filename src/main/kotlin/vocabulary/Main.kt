@@ -9,8 +9,7 @@ fun main() {
     val lines = wordsFile.readLines()
     for (line in lines) {
         val line = line.split("|")
-        val count = if (line[2].isNotEmpty()) line[2].toInt() else 0
-        val word = Word(line[0], line[1], count)
+        val word = Word(line[0], line[1], line[2].toIntOrNull() ?: 0)
         dictionary.add(word)
     }
 
