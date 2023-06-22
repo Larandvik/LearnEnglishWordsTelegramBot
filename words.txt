@@ -1,64 +1,64 @@
-able	способный
-about	о
-above	выше
-accept	принимать
-across	через
-act	действовать
-actually	на самом деле
-add	добавлять
-admit	признавать
-afraid	испуганный
-after	после
-afternoon	полдень
-again	снова
-against	против
-age	возраст
-ago	назад
-agree	соглашаться
-ahead	предстоящий
-air	воздух
-all	все
-allow	позволять
-almost	почти
-alone	один
-along	вдоль
-already	уже
-alright	хорошо
-also	также
-although	хотя
-always	всегда
-am	являюсь
-amaze	поражать
-and	и
-anger	злость
-angry	злой
-animal	животное
-annoy	раздражать
-another	другой
-answer	отвечать
-any	любой
-anymore	больше
-anyone	любой
-anything	что-либо
-anyway	в любом случае
-apartment	квартира
-apparently	видимо
-appear	появляться
-approach	подход
-are	являются
-area	область
-aren't	не
-arm	рука
-around	вокруг
-arrive	приезжать
-as	как
-ask	просить
-asleep	спящий
-ass	жопа
-at	в
-attack	атака
-attempt	пытаться
-attention	внимание
-aunt	тетя
-avoid	избегать
-away	прочь
+able|способный|0
+about|о|0
+above|выше|0
+accept|принимать|0
+across|через|0
+act|действовать|0
+actually|на самом деле|0
+add|добавлять|0
+admit|признавать|0
+afraid|испуганный|0
+after|после|0
+afternoon|полдень|0
+again|снова|0
+against|против|0
+age|возраст|0
+ago|назад|0
+agree|соглашаться|0
+ahead|предстоящий|0
+air|воздух|0
+all|все|0
+allow|позволять|0
+almost|почти|0
+alone|один|0
+along|вдоль|0
+already|уже|0
+alright|хорошо|0
+also|также|0
+although|хотя|0
+always|всегда|0
+am|являюсь|0
+amaze|поражать|0
+and|и|0
+anger|злость|0
+angry|злой|0
+animal|животное|0
+annoy|раздражать|0
+another|другой|0
+answer|отвечать|0
+any|любой|0
+anymore|больше|0
+anyone|любой|0
+anything|что-либо|0
+anyway|в любом случае|0
+apartment|квартира|0
+apparently|видимо|0
+appear|появляться|0
+approach|подход|0
+are|являются|0
+area|область|0
+aren't|не|0
+arm|рука|0
+around|вокруг|0
+arrive|приезжать|0
+as|как|0
+ask|просить|0
+asleep|спящий|0
+ass|жопа|0
+at|в|0
+attack|атака|0
+attempt|пытаться|0
+attention|внимание|0
+aunt|тетя|0
+avoid|избегать|0
+away|прочь|0
