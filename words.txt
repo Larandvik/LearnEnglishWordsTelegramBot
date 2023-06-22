@@ -1,6 +1,6 @@
-able|способный|0
-about|о|0
-above|выше|0
+able|способный|
+about|о|2
+above|выше|3
 accept|принимать|0
 across|через|0
 act|действовать|0
