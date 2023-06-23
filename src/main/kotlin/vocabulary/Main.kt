@@ -13,7 +13,20 @@ fun main() {
         dictionary.add(word)
     }
 
-    for (word in dictionary) {
-        println(word)
+    println("Меню: 1 – Учить слова, 2 – Статистика, 0 – Выход")
+
+    while (true) {
+        when (readln()) {
+            "1" -> println("Учить слова")
+            "2" -> {
+                println("Статистика:")
+                val learnedWords = dictionary.count { it.correctAnswersCount!! >= 3 }
+                val percentLearnedWords = ((dictionary.count() * learnedWords.toDouble()) / 100)
+                println("Выучено $learnedWords из ${dictionary.count()} слов | $percentLearnedWords%")
+            }
+
+            "0" -> return
+            else -> println("введите 1, 2 или 0")
+        }
     }
 }
