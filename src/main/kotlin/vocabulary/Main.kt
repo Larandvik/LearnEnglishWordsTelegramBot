@@ -20,7 +20,7 @@ fun main() {
             "1" -> println("Учить слова")
             "2" -> {
                 println("Статистика:")
-                val learnedWords = dictionary.count { it.correctAnswersCount!! >= 3 }
+                val learnedWords = dictionary.count { it.correctAnswersCount >= 3 }
                 val percentLearnedWords = ((dictionary.count() * learnedWords.toDouble()) / 100)
                 println("Выучено $learnedWords из ${dictionary.count()} слов | $percentLearnedWords%")
             }
