@@ -17,7 +17,28 @@ fun main() {
 
     while (true) {
         when (readln()) {
-            "1" -> println("Учить слова")
+            "1" -> {
+                while (true) {
+                    val unlearnedWords = dictionary.filter { it.correctAnswersCount < 3 }
+                    if (unlearnedWords.isEmpty()) return println("Вы выучили все слова")
+
+                    unlearnedWords.shuffled()
+                    val nextLearningWords = unlearnedWords.take(4)
+                    val nextLearningWord = nextLearningWords.random()
+                    val wordsForLearning = nextLearningWords.shuffled()
+                    println(
+                        """
+                        ${nextLearningWord.original}
+                        1. ${wordsForLearning[0].translate}
+                        2. ${wordsForLearning[1].translate}
+                        3. ${wordsForLearning[2].translate}
+                        4. ${wordsForLearning[3].translate}
+                        
+                    """.trimIndent()
+                    )
+                }
+            }
+
             "2" -> {
                 println("Статистика:")
                 val learnedWords = dictionary.count { it.correctAnswersCount >= 3 }
