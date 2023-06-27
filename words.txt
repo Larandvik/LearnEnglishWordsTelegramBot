@@ -1,17 +1,17 @@
-able|способный|
-about|о|2
+able|способный|3
+about|о|3
 above|выше|3
-accept|принимать|0
-across|через|0
-act|действовать|0
-actually|на самом деле|0
-add|добавлять|0
-admit|признавать|0
-afraid|испуганный|0
-after|после|0
-afternoon|полдень|0
+accept|принимать|3
+across|через|3
+act|действовать|3
+actually|на самом деле|3
+add|добавлять|3
+admit|признавать|3
+afraid|испуганный|2
+after|после|3
+afternoon|полдень|3
 again|снова|0
-against|против|0
+against|против|1
 age|возраст|0
 ago|назад|0
 agree|соглашаться|0

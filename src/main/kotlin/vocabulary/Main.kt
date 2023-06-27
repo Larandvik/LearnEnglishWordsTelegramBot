@@ -13,19 +13,36 @@ fun main() {
         dictionary.add(word)
     }
 
-    println("Меню: 1 – Учить слова, 2 – Статистика, 0 – Выход")
+    fun saveDictionary(dictionary: MutableList<Word>) {
+        wordsFile.writeText("")
+        for (word in dictionary) {
+            wordsFile.appendText("${word.original}|${word.translate}|${word.correctAnswersCount}")
+            wordsFile.appendText("\n")
+        }
+    }
 
     while (true) {
+        println("Меню: 1 – Учить слова, 2 – Статистика, 0 – Выход")
+
         when (readln()) {
             "1" -> {
                 while (true) {
                     val unlearnedWords = dictionary.filter { it.correctAnswersCount < 3 }
-                    if (unlearnedWords.isEmpty()) return println("Вы выучили все слова")
+                    if (unlearnedWords.isEmpty()) return println("Вы выучили все слова в базе")
 
                     unlearnedWords.shuffled()
                     val nextLearningWords = unlearnedWords.take(4)
                     val nextLearningWord = nextLearningWords.random()
                     val wordsForLearning = nextLearningWords.shuffled()
+
+                    fun checkAnswer(answer: String) {
+                        if (nextLearningWord.translate == answer) {
+                            nextLearningWord.correctAnswersCount++
+                            println("Правильно!\n")
+                            saveDictionary(dictionary)
+                        } else println("Неверно - ${nextLearningWord.original} - ${nextLearningWord.translate}\n")
+                    }
+
                     println(
                         """
                         ${nextLearningWord.original}
@@ -34,8 +51,22 @@ fun main() {
                         3. ${wordsForLearning[2].translate}
                         4. ${wordsForLearning[3].translate}
                         
+                        0. Выход в меню
+                        Введите номер правильного ответа или 0 для выхода в меню:
                     """.trimIndent()
                     )
+                    when (readln()) {
+                        "1" -> checkAnswer(wordsForLearning[0].translate)
+
+                        "2" -> checkAnswer(wordsForLearning[1].translate)
+
+                        "3" -> checkAnswer(wordsForLearning[2].translate)
+
+                        "4" -> checkAnswer(wordsForLearning[3].translate)
+
+                        "0" -> break
+                        else -> continue
+                    }
                 }
             }
 
