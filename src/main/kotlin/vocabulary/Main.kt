@@ -13,14 +13,6 @@ fun main() {
         dictionary.add(word)
     }
 
-    fun saveDictionary(dictionary: MutableList<Word>) {
-        wordsFile.writeText("")
-        for (word in dictionary) {
-            wordsFile.appendText("${word.original}|${word.translate}|${word.correctAnswersCount}")
-            wordsFile.appendText("\n")
-        }
-    }
-
     while (true) {
         println("Меню: 1 – Учить слова, 2 – Статистика, 0 – Выход")
 
@@ -35,14 +27,6 @@ fun main() {
                     val nextLearningWord = nextLearningWords.random()
                     val wordsForLearning = nextLearningWords.shuffled()
 
-                    fun checkAnswer(answer: String) {
-                        if (nextLearningWord.translate == answer) {
-                            nextLearningWord.correctAnswersCount++
-                            println("Правильно!\n")
-                            saveDictionary(dictionary)
-                        } else println("Неверно - ${nextLearningWord.original} - ${nextLearningWord.translate}\n")
-                    }
-
                     println(
                         """
                         ${nextLearningWord.original}
@@ -56,13 +40,25 @@ fun main() {
                     """.trimIndent()
                     )
                     when (readln()) {
-                        "1" -> checkAnswer(wordsForLearning[0].translate)
+                        "1" -> {
+                            checkAnswer(wordsForLearning[0].translate, nextLearningWord)
+                            saveDictionaryToFile(dictionary, wordsFile)
+                        }
 
-                        "2" -> checkAnswer(wordsForLearning[1].translate)
+                        "2" -> {
+                            checkAnswer(wordsForLearning[1].translate, nextLearningWord)
+                            saveDictionaryToFile(dictionary, wordsFile)
+                        }
 
-                        "3" -> checkAnswer(wordsForLearning[2].translate)
+                        "3" -> {
+                            checkAnswer(wordsForLearning[2].translate, nextLearningWord)
+                            saveDictionaryToFile(dictionary, wordsFile)
+                        }
 
-                        "4" -> checkAnswer(wordsForLearning[3].translate)
+                        "4" -> {
+                            checkAnswer(wordsForLearning[3].translate, nextLearningWord)
+                            saveDictionaryToFile(dictionary, wordsFile)
+                        }
 
                         "0" -> break
                         else -> continue
@@ -81,4 +77,18 @@ fun main() {
             else -> println("введите 1, 2 или 0")
         }
     }
+}
+
+fun saveDictionaryToFile(dictionary: MutableList<Word>, file: File) {
+    file.writeText("")
+    for (word in dictionary) {
+        file.appendText("${word.original}|${word.translate}|${word.correctAnswersCount}\n")
+    }
+}
+
+fun checkAnswer(userAnswer: String, nextLearningWord: Word) {
+    if (nextLearningWord.translate == userAnswer) {
+        nextLearningWord.correctAnswersCount++
+        println("Правильно!\n")
+    } else println("Неверно - ${nextLearningWord.original} - ${nextLearningWord.translate}\n")
 }

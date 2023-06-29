@@ -7,11 +7,11 @@ act|действовать|3
 actually|на самом деле|3
 add|добавлять|3
 admit|признавать|3
-afraid|испуганный|2
+afraid|испуганный|3
 after|после|3
 afternoon|полдень|3
-again|снова|0
-against|против|1
+again|снова|1
+against|против|3
 age|возраст|0
 ago|назад|0
 agree|соглашаться|0
