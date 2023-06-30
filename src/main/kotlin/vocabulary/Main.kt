@@ -22,7 +22,6 @@ fun main() {
                     val unlearnedWords = dictionary.filter { it.correctAnswersCount < 3 }
                     if (unlearnedWords.isEmpty()) return println("Вы выучили все слова в базе")
 
-                    unlearnedWords.shuffled()
                     val nextLearningWords = unlearnedWords.take(4)
                     val nextLearningWord = nextLearningWords.random()
                     val wordsForLearning = nextLearningWords.shuffled()
@@ -39,29 +38,17 @@ fun main() {
                         Введите номер правильного ответа или 0 для выхода в меню:
                     """.trimIndent()
                     )
-                    when (readln()) {
-                        "1" -> {
-                            checkAnswer(wordsForLearning[0].translate, nextLearningWord)
+                    val answerId = readln().toIntOrNull()
+                    val correctAnswerId = wordsForLearning.indexOf(nextLearningWord) + 1
+                    when (answerId) {
+                        correctAnswerId -> {
+                            println("Правильно!\n")
+                            nextLearningWord.correctAnswersCount++
                             saveDictionaryToFile(dictionary, wordsFile)
                         }
 
-                        "2" -> {
-                            checkAnswer(wordsForLearning[1].translate, nextLearningWord)
-                            saveDictionaryToFile(dictionary, wordsFile)
-                        }
-
-                        "3" -> {
-                            checkAnswer(wordsForLearning[2].translate, nextLearningWord)
-                            saveDictionaryToFile(dictionary, wordsFile)
-                        }
-
-                        "4" -> {
-                            checkAnswer(wordsForLearning[3].translate, nextLearningWord)
-                            saveDictionaryToFile(dictionary, wordsFile)
-                        }
-
-                        "0" -> break
-                        else -> continue
+                        0 -> break
+                        else -> println("Неверно - ${nextLearningWord.original} - ${nextLearningWord.translate}\n")
                     }
                 }
             }
@@ -84,11 +71,4 @@ fun saveDictionaryToFile(dictionary: MutableList<Word>, file: File) {
     for (word in dictionary) {
         file.appendText("${word.original}|${word.translate}|${word.correctAnswersCount}\n")
     }
-}
-
-fun checkAnswer(userAnswer: String, nextLearningWord: Word) {
-    if (nextLearningWord.translate == userAnswer) {
-        nextLearningWord.correctAnswersCount++
-        println("Правильно!\n")
-    } else println("Неверно - ${nextLearningWord.original} - ${nextLearningWord.translate}\n")
 }
