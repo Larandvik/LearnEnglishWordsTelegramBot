@@ -13,19 +13,19 @@ fun main() {
         dictionary.add(word)
     }
 
-    println("Меню: 1 – Учить слова, 2 – Статистика, 0 – Выход")
-
     while (true) {
+        println("Меню: 1 – Учить слова, 2 – Статистика, 0 – Выход")
+
         when (readln()) {
             "1" -> {
                 while (true) {
                     val unlearnedWords = dictionary.filter { it.correctAnswersCount < 3 }
-                    if (unlearnedWords.isEmpty()) return println("Вы выучили все слова")
+                    if (unlearnedWords.isEmpty()) return println("Вы выучили все слова в базе")
 
-                    unlearnedWords.shuffled()
                     val nextLearningWords = unlearnedWords.take(4)
                     val nextLearningWord = nextLearningWords.random()
                     val wordsForLearning = nextLearningWords.shuffled()
+
                     println(
                         """
                         ${nextLearningWord.original}
@@ -34,8 +34,22 @@ fun main() {
                         3. ${wordsForLearning[2].translate}
                         4. ${wordsForLearning[3].translate}
                         
+                        0. Выход в меню
+                        Введите номер правильного ответа или 0 для выхода в меню:
                     """.trimIndent()
                     )
+                    val answerId = readln().toIntOrNull()
+                    val correctAnswerId = wordsForLearning.indexOf(nextLearningWord) + 1
+                    when (answerId) {
+                        correctAnswerId -> {
+                            println("Правильно!\n")
+                            nextLearningWord.correctAnswersCount++
+                            saveDictionaryToFile(dictionary, wordsFile)
+                        }
+
+                        0 -> break
+                        else -> println("Неверно - ${nextLearningWord.original} - ${nextLearningWord.translate}\n")
+                    }
                 }
             }
 
@@ -49,5 +63,12 @@ fun main() {
             "0" -> return
             else -> println("введите 1, 2 или 0")
         }
+    }
+}
+
+fun saveDictionaryToFile(dictionary: MutableList<Word>, file: File) {
+    file.writeText("")
+    for (word in dictionary) {
+        file.appendText("${word.original}|${word.translate}|${word.correctAnswersCount}\n")
     }
 }
