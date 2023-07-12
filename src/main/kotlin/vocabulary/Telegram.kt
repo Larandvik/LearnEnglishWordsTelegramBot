@@ -1,32 +1,37 @@
 package vocabulary
 
-import java.net.URI
-import java.net.http.HttpClient
-import java.net.http.HttpRequest
-import java.net.http.HttpResponse
-
 fun main(args: Array<String>) {
 
     val botToken = args[0]
     var updateId = 0
 
     while (true) {
+        val botService = TelegramBotService()
+
         Thread.sleep(2000)
-        val updates: String = getUpdates(botToken, updateId)
+        val updates: String = botService.getUpdates(botToken, updateId)
         println(updates)
 
-        val startUpdateId = updates.lastIndexOf("update_id")
-        val endUpdateId = updates.lastIndexOf(",\n\"message\"")
-        if (startUpdateId == -1 || endUpdateId == -1) continue
-        val updateIdString = updates.substring(startUpdateId + 11, endUpdateId)
+        val stringUpdateIdRegex = "\"update_id\":(.+),".toRegex()
+        val matchResultUpdateId = stringUpdateIdRegex.find(updates)
+        val groupsUpdateId = matchResultUpdateId?.groups
+        val updateIdString = groupsUpdateId?.get(1)?.value ?: continue
+
+        val messageTextRegex = "\"text\":\"(.+?)\"".toRegex()
+        val matchResult: MatchResult? = messageTextRegex.find(updates)
+        val groups = matchResult?.groups
+        val text = groups?.get(1)?.value ?: continue
+
+        val stringChatIdRegex = "\"chat\":\\{\"id\":(.+),\"f".toRegex()
+        val matchResultChatId = stringChatIdRegex.find(updates)
+        val groupsChatId = matchResultChatId?.groups
+        val chatIdString = groupsChatId?.get(1)?.value ?: continue
+        val chatId = chatIdString.toInt()
+
+        botService.sendMessage(botToken, chatId, text)
+
         updateId = updateIdString.toInt() + 1
     }
 }
 
-fun getUpdates(botToken: String, updateId: Int): String {
-    val urlGetUpdates = "https://api.telegram.org/bot$botToken/getUpdates?offset=$updateId"
-    val client = HttpClient.newBuilder().build()
-    val request = HttpRequest.newBuilder().uri(URI.create(urlGetUpdates)).build()
-    val response = client.send(request, HttpResponse.BodyHandlers.ofString())
-    return response.body()
-}
+
