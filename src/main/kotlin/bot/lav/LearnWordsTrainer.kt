@@ -1,23 +1,14 @@
-package vocabulary
+package bot.lav
 
 import java.io.File
 import java.lang.IllegalStateException
 import java.lang.IndexOutOfBoundsException
 
-class Statistics(
-    val learned: Int,
-    val total: Int,
-    val percent: Int,
-)
 
-data class Question(
-    val variants: List<Word>,
-    val correctAnswer: Word,
-)
 
 class LearnWordsTrainer(private val learnedAnswerCount: Int = 3, private val countOfQuestionWords: Int = 4) {
 
-    private var question: Question? = null
+    var question: Question? = null
     private val dictionary = loadDictionary()
 
     fun getStatistics(): Statistics {
@@ -81,7 +72,27 @@ class LearnWordsTrainer(private val learnedAnswerCount: Int = 3, private val cou
             wordsFile.appendText("${word.questionWord}|${word.translate}|${word.correctAnswersCount}\n")
         }
     }
-
 }
 
+class Statistics(
+    val learned: Int,
+    val total: Int,
+    val percent: Int,
 
+
+) {
+    override fun toString(): String {
+        return "Выучено $learned из $total слов | $percent%"
+    }
+}
+
+data class Question(
+    val variants: List<Word>,
+    val correctAnswer: Word,
+)
+
+data class Word(
+    val questionWord: String,
+    val translate: String,
+    var correctAnswersCount: Int = 0,
+)

@@ -1,4 +1,4 @@
-package vocabulary
+package bot.lav
 
 import java.lang.Exception
 
