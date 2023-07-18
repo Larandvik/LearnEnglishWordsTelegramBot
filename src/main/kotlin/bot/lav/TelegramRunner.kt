@@ -25,23 +25,23 @@ fun main(args: Array<String>) {
         lastUpdateId = updateId + 1
 
         val message = messageTextRegex.find(updates)?.groups?.get(1)?.value
-        val chatId = chatIdRegex.find(updates)?.groups?.get(1)?.value?.toInt()
+        val chatId = chatIdRegex.find(updates)?.groups?.get(1)?.value?.toIntOrNull() ?: continue
         val data = dataRegex.find(updates)?.groups?.get(1)?.value
 
-        if (message?.lowercase() == "/start" && chatId != null) {
+        if (message?.lowercase() == "/start") {
             botService.sendMenu(botToken, chatId)
         }
-        if (data?.lowercase() == "statistics_clicked" && chatId != null) {
+        if (data?.lowercase() == "statistics_clicked") {
             botService.sendMessage(botToken, chatId, statistics_clicked)
         }
-        if (data?.lowercase() == "learn_words_clicked" && chatId != null) {
+        if (data?.lowercase() == "learn_words_clicked") {
             if (question == null) {
                 botService.sendMessage(botToken, chatId, "Вы выучили все слова в базе")
             } else {
                 botService.sendQuestion(botToken, chatId, question)
             }
         }
-        if (data?.lowercase().toString().startsWith(CALLBACK_DATA_ANSWER_PREFIX) && chatId != null) {
+        if (data?.lowercase().toString().startsWith(CALLBACK_DATA_ANSWER_PREFIX)) {
             val userAnswer = data.toString().substringAfter(CALLBACK_DATA_ANSWER_PREFIX).toInt()
             if (trainer.checkAnswer(userAnswer)) {
                 botService.sendMessage(botToken, chatId, "Правильно")
