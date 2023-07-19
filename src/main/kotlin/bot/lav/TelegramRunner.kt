@@ -1,5 +1,9 @@
 package bot.lav
 
+import bot.lav.TelegramBotService.Companion.CALLBACK_DATA_ANSWER_PREFIX
+import bot.lav.TelegramBotService.Companion.LEARN_WORDS
+import bot.lav.TelegramBotService.Companion.STATISTICS
+
 fun main(args: Array<String>) {
 
     val botToken = args[0]
@@ -31,24 +35,23 @@ fun main(args: Array<String>) {
         if (message?.lowercase() == "/start") {
             botService.sendMenu(botToken, chatId)
         }
-        if (data?.lowercase() == "statistics_clicked") {
+        if (data?.lowercase() == STATISTICS) {
             botService.sendMessage(botToken, chatId, statistics_clicked)
+            botService.sendMenu(botToken, chatId)
         }
-        if (data?.lowercase() == "learn_words_clicked") {
-            if (question == null) {
-                botService.sendMessage(botToken, chatId, "Вы выучили все слова в базе")
-            } else {
-                botService.sendQuestion(botToken, chatId, question)
-            }
+        if (data?.lowercase() == LEARN_WORDS) {
+            botService.checkNextQuestionAndSend(trainer, botToken, chatId)
         }
         if (data?.lowercase().toString().startsWith(CALLBACK_DATA_ANSWER_PREFIX)) {
             val userAnswer = data.toString().substringAfter(CALLBACK_DATA_ANSWER_PREFIX).toInt()
             if (trainer.checkAnswer(userAnswer)) {
                 botService.sendMessage(botToken, chatId, "Правильно")
             } else {
-                botService.sendMessage(botToken, chatId,
+                botService.sendMessage(
+                    botToken, chatId,
                     "Не правильно: ${trainer.question?.correctAnswer?.questionWord} " +
-                            "- ${trainer.question?.correctAnswer?.translate}")
+                            "- ${trainer.question?.correctAnswer?.translate}"
+                )
             }
             botService.checkNextQuestionAndSend(trainer, botToken, chatId)
         }
