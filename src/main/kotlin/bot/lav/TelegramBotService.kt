@@ -66,38 +66,30 @@ class TelegramBotService {
 
     fun sendQuestion(botToken: String, chatId: Int, question: Question): String {
         val urlSendQuestion = "https://api.telegram.org/bot$botToken/sendMessage"
+        val variantsButtons = question.variants.mapIndexed { index, word ->
+            """
+            {
+                "text": "${word.translate}",
+                "callback_data": "${CALLBACK_DATA_ANSWER_PREFIX + index}
+            }
+            """
+        }.joinToString(",")
+
         val sendQuestionBody = """
             {
             	"chat_id": $chatId,
             	"text": ${question.correctAnswer},
             	"reply_markup": {
             		"inline_keyboard": [
-            			[
-            				{
-            					"text": ${question.variants[0]},
-            					"callback_data": $CALLBACK_DATA_ANSWER_PREFIX + 
-                                    ${question.variants.indexOf(question.variants[0])}"
-            				},
-                            {
-            					"text": ${question.variants[1]},
-            					"callback_data": $CALLBACK_DATA_ANSWER_PREFIX + 
-            					    ${question.variants.indexOf(question.variants[1])}"
-            				},
-                            {
-            					"text": ${question.variants[2]},
-            					"callback_data": $CALLBACK_DATA_ANSWER_PREFIX + 
-                                    ${question.variants.indexOf(question.variants[2])}"
-            				},
-            				{
-            					"text": ${question.variants[3]},
-            					"callback_data": $CALLBACK_DATA_ANSWER_PREFIX + 
-                                    ${question.variants.indexOf(question.variants[3])}"
-            				}
-            			]
+                    [
+            			$variantsButtons
             		]
-            	}
+                ]
             }
+        }
         """.trimIndent()
+
+        println(sendQuestionBody)
 
         val client = HttpClient.newBuilder().build()
         val request = HttpRequest.newBuilder().uri(URI.create(urlSendQuestion))
