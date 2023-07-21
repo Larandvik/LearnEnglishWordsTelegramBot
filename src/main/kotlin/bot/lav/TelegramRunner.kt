@@ -49,7 +49,8 @@ fun main(args: Array<String>) {
                 botService.sendMessage(
                     botToken,
                     chatId,
-                    "Не правильно: ${trainer.question?.correctAnswer?.questionWord} " + "- ${trainer.question?.correctAnswer?.translate}"
+                    "Не правильно: ${trainer.question?.correctAnswer?.questionWord} " +
+                            "- ${trainer.question?.correctAnswer?.translate}"
                 )
             }
             botService.checkNextQuestionAndSend(trainer, botToken, chatId)

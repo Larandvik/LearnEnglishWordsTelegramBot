@@ -13,7 +13,7 @@ class TelegramBotService {
         const val LEARN_WORDS = "learn_words_clicked"
         const val STATISTICS = "statistics_clicked"
         const val CALLBACK_DATA_ANSWER_PREFIX = "answer_"
-        const val URL_API_TELEGRAM = "http://api.telegram.org/bot"
+        const val URL_API_TELEGRAM = "https://api.telegram.org/bot"
     }
 
     fun sendMessage(botToken: String, chatId: Int, text: String): String {
@@ -104,7 +104,7 @@ class TelegramBotService {
     }
 
     fun checkNextQuestionAndSend(trainer: LearnWordsTrainer, botToken: String, chatId: Int) {
-        if (trainer.question == null) {
+        if (trainer.getNextQuestion() == null) {
             sendMessage(botToken, chatId, "Вы выучили все слова в базе")
         } else {
             trainer.getNextQuestion()?.let { sendQuestion(botToken, chatId, it) }
