@@ -16,7 +16,6 @@ fun main(args: Array<String>) {
 
     val trainer = LearnWordsTrainer()
     val statistics_clicked = trainer.getStatistics().toString()
-    val question = trainer.getNextQuestion()
 
     while (true) {
         val botService = TelegramBotService()
@@ -48,9 +47,9 @@ fun main(args: Array<String>) {
                 botService.sendMessage(botToken, chatId, "Правильно")
             } else {
                 botService.sendMessage(
-                    botToken, chatId,
-                    "Не правильно: ${trainer.question?.correctAnswer?.questionWord} " +
-                            "- ${trainer.question?.correctAnswer?.translate}"
+                    botToken,
+                    chatId,
+                    "Не правильно: ${trainer.question?.correctAnswer?.questionWord} " + "- ${trainer.question?.correctAnswer?.translate}"
                 )
             }
             botService.checkNextQuestionAndSend(trainer, botToken, chatId)
