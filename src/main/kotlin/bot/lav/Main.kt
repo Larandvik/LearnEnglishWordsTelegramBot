@@ -1,4 +1,4 @@
-package vocabulary
+package bot.lav
 
 import java.lang.Exception
 
@@ -12,7 +12,7 @@ fun Question.asConsoleString(): String {
 fun main() {
 
     val trainer = try {
-        LearnWordsTrainer(3, 4)
+        LearnWordsTrainer(learnedAnswerCount = 3, countOfQuestionWords = 4)
     } catch (e: Exception) {
         println("невозможно загрузить словарь")
         return
