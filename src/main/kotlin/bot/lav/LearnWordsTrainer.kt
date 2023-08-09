@@ -1,12 +1,18 @@
 package bot.lav
 
+import kotlinx.serialization.Serializable
 import java.io.File
 import java.lang.IllegalStateException
 import java.lang.IndexOutOfBoundsException
 
 
 
-class LearnWordsTrainer(private val learnedAnswerCount: Int = 3, private val countOfQuestionWords: Int = 4) {
+class LearnWordsTrainer(
+    private val fileName: String = "words.txt",
+    private val learnedAnswerCount: Int = 3,
+    private val countOfQuestionWords: Int = 4
+
+) {
 
     var question: Question? = null
     private val dictionary = loadDictionary()
@@ -43,7 +49,7 @@ class LearnWordsTrainer(private val learnedAnswerCount: Int = 3, private val cou
             val correctAnswerId = it.variants.indexOf(it.correctAnswer)
             if (correctAnswerId == userAnswerIndex) {
                 it.correctAnswer.correctAnswersCount++
-                saveDictionary(dictionary)
+                saveDictionary()
                 true
             } else {
                 false
@@ -53,8 +59,12 @@ class LearnWordsTrainer(private val learnedAnswerCount: Int = 3, private val cou
 
     private fun loadDictionary(): List<Word> {
         try {
+            val wordsFile = File(fileName)
+            if (!wordsFile.exists()) {
+                File("words.txt").copyTo(wordsFile)
+            }
+
             val dictionary = mutableListOf<Word>()
-            val wordsFile = File("words.txt")
             wordsFile.readLines().forEach {
                 val splitLine = it.split("|")
                 dictionary.add(Word(splitLine[0], splitLine[1], splitLine[2].toIntOrNull() ?: 0))
@@ -65,12 +75,17 @@ class LearnWordsTrainer(private val learnedAnswerCount: Int = 3, private val cou
         }
     }
 
-    private fun saveDictionary(words: List<Word>) {
-        val wordsFile = File("words.txt")
+    private fun saveDictionary() {
+        val wordsFile = File(fileName)
         wordsFile.writeText("")
-        for (word in words) {
+        for (word in dictionary) {
             wordsFile.appendText("${word.questionWord}|${word.translate}|${word.correctAnswersCount}\n")
         }
+    }
+
+    fun resetProgress() {
+        dictionary.forEach { it.correctAnswersCount }
+        saveDictionary()
     }
 }
 
@@ -90,7 +105,7 @@ data class Question(
     val variants: List<Word>,
     val correctAnswer: Word,
 )
-
+@Serializable
 data class Word(
     val questionWord: String,
     val translate: String,
